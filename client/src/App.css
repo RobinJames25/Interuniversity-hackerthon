@@ -1,0 +1,174 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+#sect-1 {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2px;
+    flex-wrap: wrap;
+    overflow: hidden;
+}
+
+#sect-1::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(#000,rgb(20, 180, 255),#000);
+    animation: animate 5s linear infinite;
+}
+
+@keyframes animate {
+    0% {
+        transform: translateY(-100%);
+    }
+    100% {
+        transform: translateY(100%);
+    }
+}
+
+.sect-spans {
+  position: relative;
+  display: block;
+  width: calc(6.25vw - 2px);
+  height: calc(6.25vw - 2px);
+  background: #181818;
+  z-index: 2;
+  transition: 1.5s;
+}
+
+.sect-spans:hover {
+    background: rgb(20, 180, 255);
+    transition: 0s;
+}
+
+.container {
+    position: absolute;
+    max-width: 380px;
+    width: 100%;
+    padding: 25px;
+    border-radius: 8px;
+    background: #222;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 9);
+    z-index: 100;
+}
+
+.container header {
+    font-size: 30px;
+    font-weight: 600;
+    padding-left: 75px;
+    color: #00d5ff;
+}
+
+.container form {
+    margin-top: 30px;
+}
+
+form .field {
+    margin-bottom: 20px;
+}
+
+form .input-field {
+    position: relative;
+    height: 50px;
+    width: 100%;
+    color: white;
+}
+
+.input-field input {
+    height: 100%;
+    width: 100%;
+    outline: none;
+    border-radius: 8px;
+    padding: 0 15px;
+    font-size: 15px;
+    background: #333;
+    color: white;
+    border: 1.5px solid #00b4f6;
+}
+
+form .links {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+form .links a {
+    color: #fff;
+    text-decoration: none;
+}
+
+form .links a:nth-child(2) {
+    color: rgb(20, 180, 255);
+    font-weight: 600;
+}
+
+form .links a {
+    text-decoration: none;
+}
+
+form .input-field {
+    position: relative;
+    height: 50px;
+    width: 100%;
+    color: white;
+}
+
+.button {
+    margin: 25px 0 6px;
+}
+
+.button input {
+    color: black;
+    font-size: 19px;
+    font-weight: 500;
+    background-color: rgb(20, 180, 255);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.input-field input {
+    height: 100%;
+    width: 100%;
+    outline: none;
+    border-radius: 8px;
+    padding: 0 15px;
+    border: 1.5px solid #00b4f6;
+}
+
+.button input:hover {
+    background-color: rgb(70, 86, 255);
+    color: white;
+}
+
+.input-field .show-hide {
+    position: absolute;
+    right: 13px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+    color: #ffffff;
+    cursor: pointer;
+    padding: 3px;
+}

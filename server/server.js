@@ -2,6 +2,7 @@ import express from 'express';
 import authRouter from './routes/auth.route.js'
 import uploadRouter from './routes/upload.routes.js';
 import storyRouter from './routes/story.routes.js';
+import cors from 'cors';
 import 'dotenv/config';
 import { errorHandler } from './middleware/errorHandler.js';
 
@@ -10,6 +11,13 @@ const PORT = process.env.PORT || 3000;
 
 
 app.use(express.json());
+
+app.use(
+    cors({
+        origin: process.env.CLIENT_URL,
+        credentials: true
+    })
+)
 
 app.use('/api/v1', authRouter);
 app.use('/api/v1', uploadRouter);
