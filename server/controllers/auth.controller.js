@@ -1,4 +1,6 @@
+import crypto from 'crypto';
 import bcrypt from 'bcrypt';
+import { sendResetEmail } from '../utils/email.js';
 import jwt from 'jsonwebtoken';
 import {
   findUserByEmail,
@@ -8,6 +10,9 @@ import {
   updateUserById,
   deleteUserById,
   changeUserPassword,
+  saveResetToken,
+  findUserByResetToken,
+  resetPasswordAndClearToken
 } from '../models/auth.model.js';
 
 const getSanitizedUser = (user) => {
@@ -185,3 +190,56 @@ export const deleteAccount = async (req, res, next) => {
     next({ status: 500, message: 'Failed to delete account', error });
   }
 };
+
+export const forgotPassword = async (req, res, next) => {
+    try {
+      const { email } = req.body;
+      if (!email) return res.status(400).json({ message: 'Email is required' });
+
+      const user = await findUserByEmail(email);
+      if (!user) {
+        return res.status(200).json({ message: 'If that email exists, we sent a reset link.' });
+      }
+
+      const rawToken = crypto.randomBytes(32).toString('hex');
+      const tokenHash = crypto.createHash('sha256').update(rawToken).digest('hex');
+      const expires = new Date(Date.now() + 15 * 60 * 1000);
+
+      await saveResetToken(user.id, tokenHash, expires);
+
+      const link = `${process.env.CLIENT_URL}/reset-password?token=${rawToken}`;
+      await sendResetEmail(user.email, link);
+
+      return res.status(200).json({ 
+        message: 'If that email exists, we sent a reset link.',
+        rawToken,
+       });
+    } catch (error) {
+      next({ status: 500, message: 'Failed to process forgot password', error });
+    }
+};
+
+export const resetPassword = async (req, res, next) => {
+  try {
+    const { token, password } = req.body;
+    if (!token || !password) {
+      return res.status(400).json({ message: 'Token and password required' });
+    }
+
+    const tokenHash = crypto.createHash('sha256').update(token).digest('hex');
+    console.log('🆚 Incoming hash:', tokenHash);
+    const user = await findUserByResetToken(tokenHash);
+
+    if (!user || !user.reset_token_expires || new Date(user.reset_token_expires) < new Date()) {
+      return res.status(400).json({ message: 'Token is invalid or expired' });
+    }
+
+    const hashedPwd = await bcrypt.hash(password, 12);
+
+    await resetPasswordAndClearToken(user.id, hashedPwd);
+
+    res.status(200).json({ message: 'Password updated successfully. You can now sign in.' });
+  } catch (error) {
+    next({ status: 500, message: 'Failed to reset password', error });
+  }
+}

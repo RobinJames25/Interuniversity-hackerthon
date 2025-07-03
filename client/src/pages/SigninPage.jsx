@@ -145,9 +145,10 @@ const Signin = () => {
         
                   {/* Links */}
                   <div className="flex justify-between text-sm text-white">
-                    <a href="#" className="hover:underline">
+                    <Link to="/forgot-password" className="text-cyan-400 font-semibold hover:underline">
                       Forgot Password
-                    </a>
+                    </Link>
+
                     <Link to="/signup" className="text-cyan-400 font-semibold hover:underline">
                       Signup
                     </Link>
