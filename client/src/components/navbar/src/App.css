@@ -1,0 +1,62 @@
+.App ul {
+  list-style: none;
+  text-decoration: none;
+  align-items: center;
+  display: flex;
+  margin: 0;
+  padding: 0; 
+  background-color: rgb(48, 47, 47);
+}
+.App ul li{
+  margin: 0;
+}
+.App ul li a{
+  display: block;
+  text-decoration: none;
+  color: aliceblue;
+  padding: 14px 20px;
+  font-weight: 300;
+  transition: background 0.2s;
+}
+.App ul li a:hover{
+  background-color: rgb(75, 72, 72);
+}
+.App ul li:nth-child(6) {
+  margin-left: auto;
+}
+.App ul li a .nav-logo {
+  height: 24px;           
+  margin-right: 8px;      
+  vertical-align: middle; 
+  display: inline-block;
+}
+.icon {
+  margin-right: 8px;
+  vertical-align: middle;
+  font-size: 16px; 
+}
+.border-left {
+  border-left: 3px solid #aaa;  
+  margin-top: 0px;
+}
+
+@media (max-width: 768px) {
+  .App ul {
+    flex-wrap: wrap;             
+    justify-content: center;     
+  }
+
+  .App ul li {
+    flex: 1 1 auto;              
+    text-align: center;         
+  }
+
+  .push-right {
+    margin-left: 0;             
+    order: 1;                    
+  }
+
+  .border-left {
+    border-left: none;          
+  }
+}
